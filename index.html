@@ -4,397 +4,321 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>АвтоРазходи</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0d0d0f;
-    --surface: #141418;
-    --surface2: #1c1c22;
-    --border: #2a2a35;
-    --accent: #e8c840;
-    --accent2: #ff5a3c;
-    --accent3: #3caaff;
-    --text: #e8e8ef;
-    --muted: #6b6b80;
-    --fuel: #ff8c42;
-    --service: #3caaff;
-    --insurance: #a78bfa;
-    --tax: #34d399;
-    --other: #f87171;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg); color: var(--text);
-    font-family: 'IBM Plex Sans', sans-serif;
-    min-height: 100vh; overflow-x: hidden;
-  }
-  body::before {
-    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background-image:
-      linear-gradient(rgba(232,200,64,0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(232,200,64,0.015) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-  .app { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
+:root {
+  --bg:#f4f3ef;--bg2:#eceae4;--surface:#ffffff;--surface2:#f8f7f4;
+  --border:#dddbd4;--border2:#c9c7be;
+  --accent:#1a6b3c;--accent-light:#e8f4ed;
+  --accent2:#c0392b;--accent2-light:#fdecea;
+  --text:#1c1c1a;--text2:#4a4a45;--muted:#9a9990;
+  --fuel:#d4580a;--service:#1a5fa8;--insurance:#6d3cb5;--tax:#1a7a4a;--other:#b5390a;
+  --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+  --shadow-lg:0 4px 20px rgba(0,0,0,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px;}
+.app{max-width:1200px;margin:0 auto;padding:0 20px 80px;}
 
-  /* ── SETUP BANNER ── */
-  .setup-banner {
-    background: rgba(232,200,64,0.08);
-    border: 1px solid rgba(232,200,64,0.3);
-    padding: 18px 22px;
-    margin-bottom: 28px;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-  }
-  .setup-banner.hidden { display: none; }
-  .setup-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
-  .setup-text { flex: 1; }
-  .setup-text strong {
-    display: block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 2px;
-    color: var(--accent);
-    margin-bottom: 6px;
-  }
-  .setup-text p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-  .setup-text a { color: var(--accent); text-decoration: none; }
-  .setup-text a:hover { text-decoration: underline; }
-  .setup-input-row {
-    display: flex; gap: 8px; margin-top: 12px;
-  }
-  .setup-input {
-    flex: 1; background: var(--surface2); border: 1px solid var(--border);
-    color: var(--text); padding: 9px 12px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem;
-    outline: none;
-  }
-  .setup-input:focus { border-color: var(--accent); }
-  .setup-input::placeholder { color: var(--muted); }
-  .setup-save-btn {
-    padding: 9px 18px; background: var(--accent); color: #000;
-    font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 2px;
-    border: none; cursor: pointer;
-  }
-  .setup-save-btn:hover { background: #f0d040; }
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 0 20px;border-bottom:2px solid var(--border);margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:40px;height:40px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;border-radius:10px;flex-shrink:0;}
+.logo h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;color:var(--text);line-height:1;}
+.logo h1 span{color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.sync-pill{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);padding:6px 12px;border-radius:20px;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:1px;color:var(--muted);white-space:nowrap;}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);}
+.sync-dot.ok{background:var(--accent);animation:pulse 2s infinite;}
+.sync-dot.loading{background:#f59e0b;animation:pulse 0.6s infinite;}
+.sync-dot.error{background:var(--accent2);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
-  /* ── SYNC STATUS ── */
-  .sync-status {
-    display: flex; align-items: center; gap: 8px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
-    letter-spacing: 1px; color: var(--muted);
-  }
-  .sync-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--muted);
-    transition: background 0.3s;
-  }
-  .sync-dot.ok { background: var(--tax); animation: pulse 2s infinite; }
-  .sync-dot.loading { background: var(--accent); animation: spin-pulse 0.8s infinite; }
-  .sync-dot.error { background: var(--accent2); }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  @keyframes spin-pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+/* SETUP */
+.setup-banner{background:#fffbeb;border:1px solid #f59e0b;border-left:4px solid #f59e0b;padding:16px 18px;margin-bottom:24px;border-radius:8px;display:flex;gap:14px;align-items:flex-start;}
+.setup-banner.hidden{display:none;}
+.setup-icon{font-size:1.3rem;flex-shrink:0;}
+.setup-text strong{display:block;font-size:0.8rem;font-weight:600;color:#92400e;letter-spacing:0.5px;margin-bottom:4px;}
+.setup-text p{font-size:0.82rem;color:#78350f;line-height:1.5;}
+.setup-input-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.setup-input{flex:1;min-width:200px;background:#fff;border:1px solid #f59e0b;color:var(--text);padding:8px 12px;border-radius:6px;font-family:'DM Mono',monospace;font-size:0.78rem;outline:none;}
+.setup-input:focus{border-color:#d97706;box-shadow:0 0 0 3px rgba(245,158,11,0.15);}
+.setup-input::placeholder{color:var(--muted);}
+.setup-save-btn{padding:8px 16px;background:#f59e0b;color:#fff;font-weight:600;font-size:0.8rem;border:none;border-radius:6px;cursor:pointer;}
+.setup-save-btn:hover{background:#d97706;}
 
-  /* ── HEADER ── */
-  header {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    padding: 36px 0 28px; border-bottom: 1px solid var(--border); margin-bottom: 32px;
-  }
-  .logo { display: flex; align-items: center; gap: 14px; }
-  .logo-icon {
-    width: 48px; height: 48px; background: var(--accent);
-    display: flex; align-items: center; justify-content: center; font-size: 22px;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  }
-  .logo h1 {
-    font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem;
-    letter-spacing: 3px; line-height: 1; color: var(--text);
-  }
-  .logo h1 span { color: var(--accent); }
-  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-  .header-meta {
-    text-align: right; font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem; color: var(--muted); letter-spacing: 1px;
-  }
-  .header-meta strong { display: block; font-size: 1.1rem; color: var(--accent); letter-spacing: 2px; }
+/* VEHICLE TABS */
+.vehicle-bar{display:flex;align-items:center;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
+.vehicle-tab{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.15s;color:var(--text2);white-space:nowrap;}
+.vehicle-tab:hover{border-color:var(--accent);color:var(--accent);}
+.vehicle-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.add-vehicle-btn{padding:7px 12px;border-radius:20px;border:1.5px dashed var(--border2);background:transparent;font-size:0.82rem;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+.add-vehicle-btn:hover{border-color:var(--accent);color:var(--accent);}
 
-  /* ── STATS ── */
-  .stats-strip {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 2px; margin-bottom: 32px; background: var(--border);
-  }
-  .stat-card {
-    background: var(--surface); padding: 20px 22px;
-    position: relative; overflow: hidden; transition: background 0.2s;
-  }
-  .stat-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  }
-  .stat-card:nth-child(1)::before { background: var(--accent); }
-  .stat-card:nth-child(2)::before { background: var(--fuel); }
-  .stat-card:nth-child(3)::before { background: var(--service); }
-  .stat-card:nth-child(4)::before { background: var(--accent2); }
-  .stat-card:hover { background: var(--surface2); }
-  .stat-label {
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
-    letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px;
-  }
-  .stat-value {
-    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
-    letter-spacing: 1px; color: var(--text); line-height: 1;
-  }
-  .stat-value .currency {
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem;
-    color: var(--muted); margin-left: 4px;
-  }
-  .stat-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 6px; }
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.stat-card:nth-child(1)::after{background:var(--accent);}
+.stat-card:nth-child(2)::after{background:#f59e0b;}
+.stat-card:nth-child(3)::after{background:var(--service);}
+.stat-card:nth-child(4)::after{background:var(--accent2);}
+.stat-label{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;color:var(--text);line-height:1;}
+.stat-currency{font-size:1rem;color:var(--muted);margin-left:2px;}
+.stat-sub{font-size:0.72rem;color:var(--muted);margin-top:4px;}
+.stat-period-toggle{display:flex;gap:4px;margin-top:8px;}
+.period-btn{padding:2px 8px;border-radius:10px;border:1px solid var(--border);font-size:0.65rem;font-family:'DM Mono',monospace;letter-spacing:1px;cursor:pointer;background:transparent;color:var(--muted);transition:all 0.15s;}
+.period-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 
-  /* ── MAIN GRID ── */
-  .main-grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
-    letter-spacing: 3px; color: var(--muted);
-  }
+/* LAYOUT */
+.main-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);}
+.card-title{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);font-weight:500;}
+.icon-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;font-size:0.72rem;font-family:'DM Mono',monospace;letter-spacing:1px;cursor:pointer;transition:all 0.15s;}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent);}
 
-  /* ── DONUT ── */
-  .donut-section {
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 24px; margin-bottom: 20px; display: flex; gap: 20px; align-items: center;
-  }
-  .donut-wrap { position: relative; flex-shrink: 0; }
-  .donut-center {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;
-  }
-  .donut-pct { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--text); line-height: 1; }
-  .donut-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; color: var(--muted); letter-spacing: 1px; }
-  .donut-breakdown { flex: 1; }
-  .donut-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem;
-  }
-  .donut-row:last-child { border-bottom: none; }
-  .donut-cat {
-    display: flex; align-items: center; gap: 8px;
-    color: var(--muted); font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem; letter-spacing: 1px;
-  }
-  .donut-bar-bg {
-    flex: 1; height: 3px; background: var(--border); margin: 0 12px;
-    position: relative; overflow: hidden;
-  }
-  .donut-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; transition: width 0.6s ease; }
-  .donut-amt { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--text); min-width: 70px; text-align: right; }
+/* DONUT */
+.donut-body{display:flex;gap:20px;align-items:center;padding:18px;}
+.donut-wrap{position:relative;flex-shrink:0;}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.donut-pct{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--text);line-height:1;}
+.donut-lbl{font-family:'DM Mono',monospace;font-size:0.55rem;color:var(--muted);letter-spacing:1px;}
+.donut-rows{flex:1;}
+.donut-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);}
+.donut-row:last-child{border:none;}
+.donut-cat-name{font-size:0.78rem;color:var(--text2);flex:1;}
+.donut-bar-bg{width:60px;height:3px;background:var(--bg2);border-radius:2px;overflow:hidden;flex-shrink:0;}
+.donut-bar-fill{height:100%;border-radius:2px;transition:width 0.5s ease;}
+.donut-amt{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text2);min-width:65px;text-align:right;}
 
-  /* ── CHART ── */
-  .chart-section { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-bottom: 20px; }
-  .chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 120px; margin-top: 20px; padding-top: 10px; }
-  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
-  .bar-stack { width: 100%; display: flex; flex-direction: column; gap: 1px; transition: opacity 0.2s; }
-  .bar-stack:hover { opacity: 0.85; }
-  .bar-seg { width: 100%; min-height: 2px; }
-  .bar-month { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 1px; }
-  .chart-legend { display: flex; gap: 20px; margin-top: 16px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; }
-  .legend-dot { width: 10px; height: 3px; }
+/* CHART */
+.chart-body{padding:16px 18px 12px;}
+.chart-bars{display:flex;align-items:flex-end;gap:6px;height:140px;}
+.bar-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end;position:relative;}
+.bar-stack{width:100%;display:flex;flex-direction:column;gap:1px;cursor:pointer;position:relative;}
+.bar-seg{width:100%;min-height:2px;border-radius:1px 1px 0 0;transition:filter 0.15s;}
+.bar-month{font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--muted);letter-spacing:0.5px;}
+.bar-total-label{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--text2);white-space:nowrap;opacity:0;transition:opacity 0.15s;pointer-events:none;background:var(--surface);border:1px solid var(--border);padding:2px 5px;border-radius:4px;z-index:10;}
+.bar-group:hover .bar-total-label{opacity:1;}
+.bar-tooltip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:8px 10px;border-radius:7px;font-family:'DM Mono',monospace;font-size:0.62rem;white-space:pre;opacity:0;pointer-events:none;transition:opacity 0.15s;z-index:30;line-height:1.7;box-shadow:var(--shadow-lg);}
+.bar-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--text);}
+.bar-stack:hover .bar-tooltip{opacity:1;}
+.bar-stack:hover .bar-seg{filter:brightness(0.88);}
+.chart-legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--muted);}
+.legend-dot{width:10px;height:3px;border-radius:2px;}
 
-  /* ── EXPENSE LIST ── */
-  .expense-list { background: var(--surface); border: 1px solid var(--border); }
-  .expense-list-header {
-    display: grid; grid-template-columns: 100px 1fr 120px 110px 50px;
-    gap: 12px; padding: 12px 20px; background: var(--surface2);
-    border-bottom: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase;
-  }
-  .expense-row {
-    display: grid; grid-template-columns: 100px 1fr 120px 110px 50px;
-    gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--border);
-    align-items: center; transition: background 0.15s; cursor: default;
-    position: relative; animation: fadeIn 0.3s ease;
-  }
-  .expense-row:last-child { border-bottom: none; }
-  .expense-row:hover { background: var(--surface2); }
-  .expense-row::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; opacity: 0; transition: opacity 0.15s;
-  }
-  .expense-row:hover::before { opacity: 1; }
-  .expense-row[data-cat="fuel"]::before      { background: var(--fuel); }
-  .expense-row[data-cat="service"]::before   { background: var(--service); }
-  .expense-row[data-cat="insurance"]::before { background: var(--insurance); }
-  .expense-row[data-cat="tax"]::before       { background: var(--tax); }
-  .expense-row[data-cat="other"]::before     { background: var(--other); }
-  .exp-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); }
-  .exp-desc { font-size: 0.88rem; color: var(--text); }
-  .exp-desc small { display: block; font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
-  .exp-cat { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 1px; padding: 3px 8px; text-transform: uppercase; }
-  .cat-fuel      { background: rgba(255,140,66,0.15); color: var(--fuel); }
-  .cat-service   { background: rgba(60,170,255,0.15); color: var(--service); }
-  .cat-insurance { background: rgba(167,139,250,0.15); color: var(--insurance); }
-  .cat-tax       { background: rgba(52,211,153,0.15); color: var(--tax); }
-  .cat-other     { background: rgba(248,113,113,0.15); color: var(--other); }
-  .exp-amount { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; font-weight: 500; text-align: right; color: var(--text); }
-  .exp-del { text-align: center; color: var(--muted); font-size: 0.85rem; opacity: 0; transition: all 0.15s; cursor: pointer; padding: 4px 8px; }
-  .expense-row:hover .exp-del { opacity: 1; }
-  .exp-del:hover { color: var(--accent2); }
+/* LIST */
+.list-header{display:grid;grid-template-columns:90px 1fr 110px 100px 90px 56px;gap:10px;padding:10px 18px;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;background:var(--surface2);border-bottom:1px solid var(--border);}
+.expense-row{display:grid;grid-template-columns:90px 1fr 110px 100px 90px 56px;gap:10px;padding:12px 18px;border-bottom:1px solid var(--border);align-items:center;transition:background 0.12s;position:relative;animation:fadeIn 0.25s ease;}
+.expense-row:last-child{border:none;}
+.expense-row:hover{background:var(--surface2);}
+.expense-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;opacity:0;transition:opacity 0.12s;}
+.expense-row:hover::before{opacity:1;}
+.expense-row[data-cat="fuel"]::before{background:var(--fuel);}
+.expense-row[data-cat="service"]::before{background:var(--service);}
+.expense-row[data-cat="insurance"]::before{background:var(--insurance);}
+.expense-row[data-cat="tax"]::before{background:var(--tax);}
+.expense-row[data-cat="other"]::before{background:var(--other);}
+.exp-date{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--muted);}
+.exp-desc{font-size:0.85rem;color:var(--text);}
+.exp-desc small{display:block;font-size:0.68rem;color:var(--muted);margin-top:2px;}
+.exp-cat{display:inline-block;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.5px;padding:3px 8px;border-radius:20px;text-transform:uppercase;font-weight:500;}
+.cat-fuel{background:rgba(212,88,10,0.1);color:var(--fuel);}
+.cat-service{background:rgba(26,95,168,0.1);color:var(--service);}
+.cat-insurance{background:rgba(109,60,181,0.1);color:var(--insurance);}
+.cat-tax{background:rgba(26,122,74,0.1);color:var(--tax);}
+.cat-other{background:rgba(181,57,10,0.1);color:var(--other);}
+.exp-amount{font-family:'DM Mono',monospace;font-size:0.88rem;font-weight:500;text-align:right;color:var(--text);}
+.row-actions{display:flex;gap:4px;justify-content:center;opacity:0;transition:opacity 0.12s;}
+.expense-row:hover .row-actions{opacity:1;}
+.act-btn{background:none;border:1px solid var(--border);color:var(--muted);width:26px;height:26px;border-radius:5px;cursor:pointer;font-size:0.75rem;display:flex;align-items:center;justify-content:center;transition:all 0.12s;}
+.act-btn:hover{border-color:var(--accent);color:var(--accent);}
+.act-btn.del:hover{border-color:var(--accent2);color:var(--accent2);}
 
-  /* ── ADD PANEL ── */
-  .add-panel { background: var(--surface); border: 1px solid var(--border); padding: 24px; position: sticky; top: 24px; }
-  .add-panel .section-title { margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-  .form-field { margin-bottom: 14px; }
-  .form-label { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
-  .form-input, .form-select {
-    width: 100%; background: var(--surface2); border: 1px solid var(--border);
-    color: var(--text); padding: 10px 12px; font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.82rem; outline: none; transition: border-color 0.2s; appearance: none;
-  }
-  .form-input:focus, .form-select:focus { border-color: var(--accent); }
-  .form-input::placeholder { color: var(--muted); }
-  .cat-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 14px; }
-  .cat-btn {
-    padding: 8px 4px; background: var(--surface2); border: 1px solid var(--border);
-    color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem;
-    letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.15s; text-align: center;
-  }
-  .cat-btn:hover { border-color: var(--accent); color: var(--text); }
-  .cat-btn.active { border-color: var(--accent); background: rgba(232,200,64,0.1); color: var(--accent); }
-  .cat-btn.active[data-c="fuel"]      { border-color:var(--fuel);      background:rgba(255,140,66,0.1);  color:var(--fuel); }
-  .cat-btn.active[data-c="service"]   { border-color:var(--service);   background:rgba(60,170,255,0.1); color:var(--service); }
-  .cat-btn.active[data-c="insurance"] { border-color:var(--insurance); background:rgba(167,139,250,0.1);color:var(--insurance); }
-  .cat-btn.active[data-c="tax"]       { border-color:var(--tax);       background:rgba(52,211,153,0.1); color:var(--tax); }
-  .cat-btn.active[data-c="other"]     { border-color:var(--other);     background:rgba(248,113,113,0.1);color:var(--other); }
-  .add-btn {
-    width: 100%; padding: 14px; background: var(--accent); color: #000;
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 3px;
-    border: none; cursor: pointer;
-    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-    transition: all 0.15s; margin-top: 8px; position: relative;
-  }
-  .add-btn:hover { background: #f0d040; transform: translateY(-1px); }
-  .add-btn:disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; transform: none; clip-path: none; }
+/* EMPTY / LOADING */
+.empty-state{padding:40px 20px;text-align:center;color:var(--muted);font-size:0.82rem;}
+.empty-icon{font-size:2rem;margin-bottom:10px;opacity:0.4;}
+.loading-row{padding:20px;text-align:center;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:2px;color:var(--muted);}
+.loading-row::after{content:'…';animation:dots 1.2s infinite;}
+@keyframes dots{0%{content:'.'}40%{content:'..'}80%{content:'…'}}
 
-  /* ── EMPTY & LOADING ── */
-  .empty-state { padding: 50px 20px; text-align: center; color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; }
-  .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.3; }
-  .loading-row { padding: 20px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); }
-  .loading-row::after { content: '...'; animation: dots 1.5s infinite; }
-  @keyframes dots { 0%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
+/* PANEL */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:20px;position:sticky;top:20px;}
+.panel-title{font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.edit-badge{background:var(--accent-light);color:var(--accent);font-size:0.6rem;padding:2px 8px;border-radius:10px;font-weight:600;}
+.form-field{margin-bottom:12px;}
+.form-label{display:block;font-size:0.7rem;font-weight:600;color:var(--text2);margin-bottom:5px;}
+.form-input,.form-select{width:100%;background:var(--surface2);border:1.5px solid var(--border);color:var(--text);padding:9px 12px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.15s;appearance:none;}
+.form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light);}
+.form-input::placeholder{color:var(--muted);}
+.form-input.error{border-color:var(--accent2);box-shadow:0 0 0 3px var(--accent2-light);}
 
-  /* ── FLASH ── */
-  .flash {
-    position: fixed; bottom: 24px; right: 24px; color: #000;
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 2px;
-    padding: 12px 20px;
-    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
-    transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 100;
-    background: var(--accent);
-  }
-  .flash.error { background: var(--accent2); color: #fff; }
-  .flash.show { transform: translateY(0); opacity: 1; }
+/* AUTOCOMPLETE */
+.autocomplete-wrap{position:relative;}
+.autocomplete-list{position:absolute;top:100%;left:0;right:0;background:var(--surface);border:1.5px solid var(--accent);border-top:none;border-radius:0 0 8px 8px;z-index:100;box-shadow:var(--shadow-lg);max-height:160px;overflow-y:auto;}
+.autocomplete-item{padding:8px 12px;font-size:0.82rem;cursor:pointer;color:var(--text2);border-bottom:1px solid var(--border);transition:background 0.1s;}
+.autocomplete-item:last-child{border:none;}
+.autocomplete-item:hover,.autocomplete-item.selected{background:var(--accent-light);color:var(--accent);}
 
-  /* ── FILTER STRIP ── */
-  .filter-strip { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+/* CAT GRID */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px;}
+.cat-btn{padding:7px 4px;background:var(--surface2);border:1.5px solid var(--border);color:var(--muted);font-size:0.68rem;font-weight:500;cursor:pointer;transition:all 0.12s;text-align:center;border-radius:7px;}
+.cat-btn:hover{border-color:var(--accent);color:var(--accent);}
+.cat-btn.active{border-color:var(--accent);background:var(--accent-light);color:var(--accent);font-weight:600;}
+.cat-btn.active[data-c="fuel"]{border-color:var(--fuel);background:rgba(212,88,10,0.08);color:var(--fuel);}
+.cat-btn.active[data-c="service"]{border-color:var(--service);background:rgba(26,95,168,0.08);color:var(--service);}
+.cat-btn.active[data-c="insurance"]{border-color:var(--insurance);background:rgba(109,60,181,0.08);color:var(--insurance);}
+.cat-btn.active[data-c="tax"]{border-color:var(--tax);background:rgba(26,122,74,0.08);color:var(--tax);}
+.cat-btn.active[data-c="other"]{border-color:var(--other);background:rgba(181,57,10,0.08);color:var(--other);}
 
-  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.btn-row{display:flex;gap:8px;margin-top:4px;}
+.submit-btn{flex:1;padding:11px;background:var(--accent);color:#fff;font-weight:600;font-size:0.88rem;border:none;border-radius:8px;cursor:pointer;transition:all 0.15s;}
+.submit-btn:hover{background:#155c32;transform:translateY(-1px);box-shadow:0 4px 12px rgba(26,107,60,0.3);}
+.submit-btn:disabled{background:var(--border2);color:var(--muted);cursor:not-allowed;transform:none;box-shadow:none;}
+.cancel-btn{padding:11px 16px;background:transparent;color:var(--muted);font-weight:500;font-size:0.88rem;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.15s;}
+.cancel-btn:hover{border-color:var(--accent2);color:var(--accent2);}
 
-  @media (max-width: 768px) {
-    .main-grid { grid-template-columns: 1fr; }
-    .stats-strip { grid-template-columns: repeat(2, 1fr); }
-    .expense-list-header, .expense-row { grid-template-columns: 80px 1fr 90px 40px; }
-    .col-cat { display: none; }
-    .add-panel { position: static; }
-  }
+/* FILTER */
+.filter-wrap{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);}
+.filter-label{font-size:0.7rem;font-weight:600;color:var(--text2);margin-bottom:8px;}
+.filter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.filter-btn{padding:6px 4px;background:var(--surface2);border:1.5px solid var(--border);color:var(--muted);font-size:0.65rem;cursor:pointer;transition:all 0.12s;border-radius:6px;text-align:center;font-weight:500;}
+.filter-btn:hover{border-color:var(--accent);color:var(--accent);}
+.filter-btn.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent);font-weight:600;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;z-index:1000;animation:fadeIn 0.2s ease;}
+.modal-overlay.hidden{display:none;}
+.modal{background:var(--surface);border-radius:12px;padding:24px;width:90%;max-width:440px;box-shadow:var(--shadow-lg);}
+.modal-title{font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:16px;}
+.vehicle-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
+.vehicle-item-icon{font-size:1.2rem;}
+.vehicle-item-name{font-weight:600;font-size:0.88rem;}
+.vehicle-item-type{font-size:0.72rem;color:var(--muted);}
+.vehicle-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:4px;border-radius:4px;margin-left:auto;}
+.vehicle-del:hover{color:var(--accent2);}
+.vehicle-add-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;}
+.modal-btn{padding:8px 16px;border-radius:7px;font-size:0.82rem;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:transparent;color:var(--text2);transition:all 0.15s;}
+.modal-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+.modal-btn.primary:hover{background:#155c32;}
+.modal-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* FLASH */
+.flash{position:fixed;bottom:24px;right:24px;color:#fff;font-size:0.78rem;font-weight:500;padding:12px 18px;border-radius:8px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all 0.3s;z-index:2000;}
+.flash.err{background:var(--accent2);}
+.flash.ok{background:var(--accent);}
+.flash.show{transform:translateY(0);opacity:1;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .main-grid{grid-template-columns:1fr;}
+  .panel{position:static;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  .list-header{grid-template-columns:70px 1fr 80px 44px;}
+  .list-header .col-v,.list-header .col-cat{display:none;}
+  .expense-row{grid-template-columns:70px 1fr 80px 44px;}
+  .expense-row .exp-vehicle,.expense-row .exp-cat-cell{display:none;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .logo h1{font-size:1.5rem;}
+  .vehicle-add-form{grid-template-columns:1fr;}
+}
+@media(max-width:380px){.stats-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- SETUP BANNER -->
-  <div class="setup-banner" id="setup-banner">
-    <div class="setup-icon">⚙️</div>
-    <div class="setup-text">
-      <strong>НАСТРОЙКА — GOOGLE SHEETS БАЗА ДАННИ</strong>
-      <p>
-        За да запазиш данните в облака, следвай стъпките в <code>ИНСТРУКЦИИ.md</code> файла,
-        след което постави своя <strong>Web App URL</strong> тук:
-      </p>
-      <div class="setup-input-row">
-        <input class="setup-input" id="api-url-input" type="text"
-          placeholder="https://script.google.com/macros/s/…/exec">
-        <button class="setup-save-btn" onclick="saveApiUrl()">ЗАПАЗИ</button>
-      </div>
+<div class="setup-banner" id="setup-banner">
+  <div class="setup-icon">⚙️</div>
+  <div class="setup-text">
+    <strong>НАСТРОЙКА — GOOGLE SHEETS БАЗА ДАННИ</strong>
+    <p>Следвай инструкциите в <strong>Code.gs</strong> и постави своя <strong>Web App URL</strong> тук:</p>
+    <div class="setup-input-row">
+      <input class="setup-input" id="api-url-input" type="text" placeholder="https://script.google.com/macros/s/…/exec">
+      <button class="setup-save-btn" onclick="saveApiUrl()">ЗАПАЗИ</button>
     </div>
   </div>
+</div>
 
-  <!-- HEADER -->
-  <header>
-    <div class="logo">
-      <div class="logo-icon">🚗</div>
-      <h1>АВТО<span>РАЗХОДИ</span></h1>
+<header>
+  <div class="logo">
+    <div class="logo-mark">🚗</div>
+    <h1>АВТО<span>РАЗХОДИ</span></h1>
+  </div>
+  <div class="header-right">
+    <div class="sync-pill">
+      <div class="sync-dot" id="sync-dot"></div>
+      <span id="sync-label">НЕ Е СВЪРЗАНО</span>
     </div>
-    <div class="header-right">
-      <div class="sync-status">
-        <div class="sync-dot" id="sync-dot"></div>
-        <span id="sync-label">НЕ Е СВЪРЗАНО</span>
-      </div>
-      <div class="header-meta">
-        <strong id="current-year">2025</strong>
-        МОНИТОРИНГ НА РАЗХОДИТЕ
-      </div>
-    </div>
-  </header>
+    <button class="icon-btn" onclick="showVehicleModal()">🚘 Превозни средства</button>
+  </div>
+</header>
 
-  <!-- STATS -->
-  <div class="stats-strip">
-    <div class="stat-card">
-      <div class="stat-label">ОБЩО РАЗХОДИ</div>
-      <div class="stat-value" id="stat-total">—<span class="currency">ЛВ</span></div>
-      <div class="stat-sub">за текущата година</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">ГОРИВО</div>
-      <div class="stat-value" id="stat-fuel">—<span class="currency">ЛВ</span></div>
-      <div class="stat-sub" id="stat-fuel-pct">— % от общото</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">СЕРВИЗ</div>
-      <div class="stat-value" id="stat-service">—<span class="currency">ЛВ</span></div>
-      <div class="stat-sub" id="stat-service-pct">— % от общото</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">ЗАПИСИ</div>
-      <div class="stat-value" id="stat-count">—</div>
-      <div class="stat-sub">разхода в системата</div>
+<div class="vehicle-bar" id="vehicle-bar"></div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">ОБЩО РАЗХОДИ</div>
+    <div class="stat-value" id="stat-total">—<span class="stat-currency">€</span></div>
+    <div class="stat-sub" id="stat-total-sub">—</div>
+    <div class="stat-period-toggle">
+      <button class="period-btn active" data-p="year" onclick="setPeriod(this)">ГОДИНА</button>
+      <button class="period-btn" data-p="month" onclick="setPeriod(this)">МЕСЕЦ</button>
     </div>
   </div>
+  <div class="stat-card">
+    <div class="stat-label">ГОРИВО</div>
+    <div class="stat-value" id="stat-fuel">—<span class="stat-currency">€</span></div>
+    <div class="stat-sub" id="stat-fuel-pct">—</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">СЕРВИЗ</div>
+    <div class="stat-value" id="stat-service">—<span class="stat-currency">€</span></div>
+    <div class="stat-sub" id="stat-service-pct">—</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">ЗАПИСИ</div>
+    <div class="stat-value" id="stat-count">—</div>
+    <div class="stat-sub" id="stat-count-sub">разхода</div>
+  </div>
+</div>
 
-  <!-- MAIN -->
-  <div class="main-grid">
-    <!-- LEFT -->
-    <div>
-      <!-- Donut -->
-      <div class="donut-section">
+<div class="main-grid">
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Разпределение по категория</div>
+      </div>
+      <div class="donut-body">
         <div class="donut-wrap">
           <svg id="donut-svg" width="110" height="110" viewBox="0 0 110 110">
-            <circle cx="55" cy="55" r="38" fill="none" stroke="var(--border)" stroke-width="14"/>
+            <circle cx="55" cy="55" r="38" fill="none" stroke="var(--bg2)" stroke-width="14"/>
           </svg>
           <div class="donut-center">
             <div class="donut-pct" id="donut-main">—</div>
-            <div class="donut-sub">ТОП</div>
+            <div class="donut-lbl">ТОП</div>
           </div>
         </div>
-        <div class="donut-breakdown" id="donut-breakdown">
-          <div class="donut-row" style="color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:1px">
-            Зареждане на данни…
-          </div>
+        <div class="donut-rows" id="donut-rows">
+          <div class="donut-row" style="color:var(--muted);font-size:0.78rem">Зареждане…</div>
         </div>
       </div>
+    </div>
 
-      <!-- Chart -->
-      <div class="chart-section">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0">
-          <div class="section-title">МЕСЕЧНА ДИНАМИКА</div>
-          <button onclick="loadData()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:5px 12px;font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:2px;cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">⟳ ОБНОВИ</button>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Месечна динамика</div>
+        <button class="icon-btn" onclick="loadData()">⟳ Обнови</button>
+      </div>
+      <div class="chart-body">
         <div class="chart-bars" id="chart-bars"></div>
         <div class="chart-legend">
           <div class="legend-item"><div class="legend-dot" style="background:var(--fuel)"></div>Гориво</div>
@@ -404,71 +328,112 @@
           <div class="legend-item"><div class="legend-dot" style="background:var(--other)"></div>Друго</div>
         </div>
       </div>
+    </div>
 
-      <!-- List -->
-      <div class="expense-list">
-        <div class="expense-list-header">
-          <div>ДАТА</div>
-          <div>ОПИСАНИЕ</div>
-          <div class="col-cat">КАТЕГОРИЯ</div>
-          <div style="text-align:right">СУМА</div>
-          <div></div>
-        </div>
-        <div id="expense-rows">
-          <div class="loading-row">Зареждане</div>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Разходи</div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted)" id="list-count-label"></div>
+      </div>
+      <div class="list-header">
+        <div>ДАТА</div><div>ОПИСАНИЕ</div>
+        <div class="col-v">ПРЕВОЗНО СР.</div>
+        <div class="col-cat">КАТЕГОРИЯ</div>
+        <div style="text-align:right">СУМА</div>
+        <div></div>
+      </div>
+      <div id="expense-rows"><div class="loading-row">Зареждане</div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">
+      <span id="panel-title-text">+ НОВ РАЗХОД</span>
+      <span class="edit-badge" id="edit-badge" style="display:none">РЕДАКЦИЯ</span>
+    </div>
+
+    <div class="form-field">
+      <div class="form-label">Категория</div>
+      <div class="cat-grid">
+        <button class="cat-btn active" data-c="fuel"      onclick="selectCat(this)">⛽ Гориво</button>
+        <button class="cat-btn"        data-c="service"   onclick="selectCat(this)">🔧 Сервиз</button>
+        <button class="cat-btn"        data-c="insurance" onclick="selectCat(this)">🛡️ Застрах.</button>
+        <button class="cat-btn"        data-c="tax"       onclick="selectCat(this)">📄 Данък</button>
+        <button class="cat-btn"        data-c="other"     onclick="selectCat(this)">📦 Друго</button>
       </div>
     </div>
 
-    <!-- RIGHT: ADD PANEL -->
-    <div class="add-panel">
-      <div class="section-title">+ НОВ РАЗХОД</div>
+    <div class="form-field">
+      <label class="form-label">Превозно средство</label>
+      <select class="form-select" id="f-vehicle"></select>
+    </div>
 
-      <div class="form-field">
-        <label class="form-label">Категория</label>
-        <div class="cat-selector">
-          <button class="cat-btn active" data-c="fuel"      onclick="selectCat(this)">⛽ Гориво</button>
-          <button class="cat-btn"        data-c="service"   onclick="selectCat(this)">🔧 Сервиз</button>
-          <button class="cat-btn"        data-c="insurance" onclick="selectCat(this)">🛡️ Застрах.</button>
-          <button class="cat-btn"        data-c="tax"       onclick="selectCat(this)">📄 Данък</button>
-          <button class="cat-btn"        data-c="other"     onclick="selectCat(this)">📦 Друго</button>
-        </div>
+    <div class="form-field">
+      <label class="form-label">Описание</label>
+      <div class="autocomplete-wrap">
+        <input class="form-input" id="f-desc" type="text" placeholder="напр. Shell A1 — 40 л." autocomplete="off"
+          oninput="onDescInput(this)" onkeydown="onDescKey(event)">
+        <div class="autocomplete-list" id="autocomplete-list" style="display:none"></div>
       </div>
+    </div>
 
-      <div class="form-field">
-        <label class="form-label">Описание</label>
-        <input class="form-input" id="f-desc" type="text" placeholder="напр. Shell A1 — 40 л.">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Сума (лв)</label>
-        <input class="form-input" id="f-amount" type="number" min="0" step="0.01" placeholder="0.00">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Дата</label>
-        <input class="form-input" id="f-date" type="date">
-      </div>
-      <div class="form-field">
-        <label class="form-label">КМ пробег (по избор)</label>
-        <input class="form-input" id="f-km" type="number" min="0" placeholder="напр. 87450">
-      </div>
-      <div class="form-field">
-        <label class="form-label">Бележка (по избор)</label>
-        <input class="form-input" id="f-note" type="text" placeholder="допълнителна информация...">
-      </div>
+    <div class="form-field">
+      <label class="form-label">Сума (€)</label>
+      <input class="form-input" id="f-amount" type="number" min="0" step="0.01" placeholder="0.00">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Дата</label>
+      <input class="form-input" id="f-date" type="date">
+    </div>
+    <div class="form-field">
+      <label class="form-label">КМ пробег <span style="color:var(--muted);font-weight:400">(по избор)</span></label>
+      <input class="form-input" id="f-km" type="number" min="0" placeholder="напр. 87450">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Бележка <span style="color:var(--muted);font-weight:400">(по избор)</span></label>
+      <input class="form-input" id="f-note" type="text" placeholder="допълнителна информация...">
+    </div>
 
-      <button class="add-btn" id="add-btn" onclick="addExpense()">ДОБАВИ РАЗХОД</button>
+    <div class="btn-row">
+      <button class="submit-btn" id="submit-btn" onclick="submitExpense()">ДОБАВИ РАЗХОД</button>
+      <button class="cancel-btn" id="cancel-btn" onclick="cancelEdit()" style="display:none">Отказ</button>
+    </div>
 
-      <div class="filter-strip">
-        <div class="form-label" style="margin-bottom:10px">Бърз филтър</div>
-        <div class="cat-selector">
-          <button class="cat-btn active" data-f="all" onclick="filterBy(this)" style="grid-column:1/-1">Всички</button>
-          <button class="cat-btn" data-f="fuel"      onclick="filterBy(this)">Гориво</button>
-          <button class="cat-btn" data-f="service"   onclick="filterBy(this)">Сервиз</button>
-          <button class="cat-btn" data-f="insurance" onclick="filterBy(this)">Застрах.</button>
-          <button class="cat-btn" data-f="tax"       onclick="filterBy(this)">Данък</button>
-          <button class="cat-btn" data-f="other"     onclick="filterBy(this)">Друго</button>
-        </div>
+    <div class="filter-wrap">
+      <div class="filter-label">Бърз филтър</div>
+      <div class="filter-grid">
+        <button class="filter-btn active" data-f="all" onclick="filterBy(this)" style="grid-column:1/-1">Всички</button>
+        <button class="filter-btn" data-f="fuel"      onclick="filterBy(this)">Гориво</button>
+        <button class="filter-btn" data-f="service"   onclick="filterBy(this)">Сервиз</button>
+        <button class="filter-btn" data-f="insurance" onclick="filterBy(this)">Застрах.</button>
+        <button class="filter-btn" data-f="tax"       onclick="filterBy(this)">Данък</button>
+        <button class="filter-btn" data-f="other"     onclick="filterBy(this)">Друго</button>
       </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- VEHICLE MODAL -->
+<div class="modal-overlay hidden" id="vehicle-modal">
+  <div class="modal">
+    <div class="modal-title">🚘 Управление на превозни средства</div>
+    <div id="vehicle-modal-list"></div>
+    <div id="vehicle-add-section">
+      <div class="vehicle-add-form">
+        <input class="form-input" id="v-name" placeholder="Име (напр. VW Golf)" maxlength="30">
+        <select class="form-select" id="v-type">
+          <option value="🚗">🚗 Лек автомобил</option>
+          <option value="🚙">🚙 SUV / Джип</option>
+          <option value="🚐">🚐 Бус / Ван</option>
+          <option value="🏍️">🏍️ Мотоциклет</option>
+          <option value="🚚">🚚 Камион</option>
+        </select>
+      </div>
+      <button class="modal-btn primary" onclick="addVehicle()" style="width:100%">+ Добави превозно средство</button>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeVehicleModal()">Затвори</button>
     </div>
   </div>
 </div>
@@ -476,316 +441,345 @@
 <div class="flash" id="flash"></div>
 
 <script>
-// ── STATE ──
-let expenses = [];
-let selectedCat = 'fuel';
-let activeFilter = 'all';
-let API_URL = localStorage.getItem('autorazh-api-url') || '';
-let isLoading = false;
-
-const CATS = {
-  fuel:      { label: 'Гориво',      color: 'var(--fuel)',      cls: 'cat-fuel' },
-  service:   { label: 'Сервиз',      color: 'var(--service)',   cls: 'cat-service' },
-  insurance: { label: 'Застраховка', color: 'var(--insurance)', cls: 'cat-insurance' },
-  tax:       { label: 'Данъци',      color: 'var(--tax)',       cls: 'cat-tax' },
-  other:     { label: 'Друго',       color: 'var(--other)',     cls: 'cat-other' },
+const CATS={
+  fuel:     {label:'Гориво',     color:'var(--fuel)',      cls:'cat-fuel',      emoji:'⛽'},
+  service:  {label:'Сервиз',     color:'var(--service)',   cls:'cat-service',   emoji:'🔧'},
+  insurance:{label:'Застраховка',color:'var(--insurance)', cls:'cat-insurance', emoji:'🛡️'},
+  tax:      {label:'Данъци',     color:'var(--tax)',       cls:'cat-tax',       emoji:'📄'},
+  other:    {label:'Друго',      color:'var(--other)',     cls:'cat-other',     emoji:'📦'},
 };
-const MONTHS = ['ЯНУ','ФЕВ','МАР','АПР','МАЙ','ЮНИ','ЮЛИ','АВГ','СЕП','ОКТ','НОЕ','ДЕК'];
+const MONTHS=['ЯНУ','ФЕВ','МАР','АПР','МАЙ','ЮНИ','ЮЛИ','АВГ','СЕП','ОКТ','НОЕ','ДЕК'];
+const MONTH_NAMES=['Януари','Февруари','Март','Април','Май','Юни','Юли','Август','Септември','Октомври','Ноември','Декември'];
+const TYPE_NAMES={'🚗':'Лек автомобил','🚙':'SUV / Джип','🚐':'Бус / Ван','🏍️':'Мотоциклет','🚚':'Камион'};
 
-// ── INIT ──
-document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
-document.getElementById('current-year').textContent = new Date().getFullYear();
+let expenses=[];
+let vehicles=JSON.parse(localStorage.getItem('avtorazh-vehicles')||'[]');
+let selectedCat='fuel',activeFilter='all',activeVehicle='all',activePeriod='year';
+let editingId=null,acSelectedIdx=-1;
+let API_URL=localStorage.getItem('autorazh-api-url')||'';
 
-if (API_URL) {
+// INIT
+document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
+if(!vehicles.length){vehicles=[{id:'v1',name:'Моят автомобил',type:'🚗'}];saveVehicles();}
+renderVehicleTabs();renderVehicleSelect();
+if(API_URL){
   document.getElementById('setup-banner').classList.add('hidden');
-  document.getElementById('api-url-input').value = API_URL;
+  document.getElementById('api-url-input').value=API_URL;
   loadData();
-} else {
-  setSyncStatus('error', 'НЕ Е СВЪРЗАНО');
-  renderEmpty();
+}else{setSyncStatus('error','НЕ Е СВЪРЗАНО');renderEmpty();}
+
+// API
+function saveApiUrl(){
+  const val=document.getElementById('api-url-input').value.trim();
+  if(!val.includes('script.google.com')){flash('Невалиден URL','err');return;}
+  API_URL=val;localStorage.setItem('autorazh-api-url',API_URL);
+  document.getElementById('setup-banner').classList.add('hidden');loadData();
+}
+function setSyncStatus(s,l){document.getElementById('sync-dot').className='sync-dot '+s;document.getElementById('sync-label').textContent=l;}
+async function apiCall(params){
+  const res=await fetch(API_URL+'?'+new URLSearchParams(params));
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const d=await res.json();if(d.error)throw new Error(d.error);return d;
+}
+async function loadData(){
+  if(!API_URL)return;
+  setSyncStatus('loading','ЗАРЕЖДА...');
+  document.getElementById('expense-rows').innerHTML='<div class="loading-row">Зареждане</div>';
+  try{
+    const d=await apiCall({action:'getAll'});
+    expenses=d.expenses.map(e=>({...e,amount:parseFloat(e.amount)||0}));
+    setSyncStatus('ok','СИНХРОНИЗИРАНО');render();
+  }catch(err){setSyncStatus('error','ГРЕШКА');flash('Грешка: '+err.message,'err');renderEmpty();}
 }
 
-// ── API URL ──
-function saveApiUrl() {
-  const val = document.getElementById('api-url-input').value.trim();
-  if (!val.includes('script.google.com')) {
-    flash('Невалиден URL — трябва да е от script.google.com', true);
-    return;
-  }
-  API_URL = val;
-  localStorage.setItem('autorazh-api-url', API_URL);
-  document.getElementById('setup-banner').classList.add('hidden');
-  loadData();
+// VEHICLES
+function saveVehicles(){localStorage.setItem('avtorazh-vehicles',JSON.stringify(vehicles));}
+function renderVehicleTabs(){
+  const bar=document.getElementById('vehicle-bar');
+  let h=`<button class="vehicle-tab ${activeVehicle==='all'?'active':''}" data-vid="all" onclick="selectVehicle(this)" style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:1px">ВСЕ</button>`;
+  vehicles.forEach(v=>{h+=`<button class="vehicle-tab ${activeVehicle===v.id?'active':''}" data-vid="${v.id}" onclick="selectVehicle(this)"><span>${v.type}</span>${v.name}</button>`;});
+  if(vehicles.length<5)h+=`<button class="add-vehicle-btn" onclick="showVehicleModal()">+ Добави</button>`;
+  bar.innerHTML=h;
+}
+function renderVehicleSelect(){
+  document.getElementById('f-vehicle').innerHTML=vehicles.map(v=>`<option value="${v.id}">${v.type} ${v.name}</option>`).join('');
+}
+function selectVehicle(btn){activeVehicle=btn.dataset.vid;renderVehicleTabs();render();}
+function showVehicleModal(){
+  renderVehicleModalList();
+  document.getElementById('vehicle-modal').classList.remove('hidden');
+  document.getElementById('vehicle-add-section').style.display=vehicles.length>=5?'none':'block';
+}
+function closeVehicleModal(){document.getElementById('vehicle-modal').classList.add('hidden');}
+function renderVehicleModalList(){
+  const el=document.getElementById('vehicle-modal-list');
+  if(!vehicles.length){el.innerHTML='<div style="color:var(--muted);font-size:0.8rem;padding:8px 0">Няма добавени превозни средства.</div>';return;}
+  el.innerHTML=vehicles.map(v=>`
+    <div class="vehicle-item">
+      <div class="vehicle-item-icon">${v.type}</div>
+      <div><div class="vehicle-item-name">${v.name}</div><div class="vehicle-item-type">${TYPE_NAMES[v.type]||v.type}</div></div>
+      <button class="vehicle-del" onclick="removeVehicle('${v.id}')">✕</button>
+    </div>`).join('');
+}
+function addVehicle(){
+  if(vehicles.length>=5){flash('Максимум 5 превозни средства','err');return;}
+  const name=document.getElementById('v-name').value.trim();
+  const type=document.getElementById('v-type').value;
+  if(!name){document.getElementById('v-name').classList.add('error');return;}
+  vehicles.push({id:'v'+Date.now(),name,type});
+  saveVehicles();renderVehicleTabs();renderVehicleSelect();renderVehicleModalList();
+  document.getElementById('v-name').value='';
+  document.getElementById('vehicle-add-section').style.display=vehicles.length>=5?'none':'block';
+  flash('Превозното средство е добавено','ok');
+}
+function removeVehicle(id){
+  if(vehicles.length===1){flash('Трябва поне едно превозно средство','err');return;}
+  vehicles=vehicles.filter(v=>v.id!==id);
+  if(activeVehicle===id)activeVehicle='all';
+  saveVehicles();renderVehicleTabs();renderVehicleSelect();renderVehicleModalList();
 }
 
-// ── SYNC STATUS ──
-function setSyncStatus(state, label) {
-  const dot = document.getElementById('sync-dot');
-  const lbl = document.getElementById('sync-label');
-  dot.className = 'sync-dot ' + state;
-  lbl.textContent = label;
+// AUTOCOMPLETE
+function getTopDescs(){
+  const freq={};
+  expenses.forEach(e=>{if(e.desc)freq[e.desc]=(freq[e.desc]||0)+1;});
+  return Object.entries(freq).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+}
+function onDescInput(inp){
+  const val=inp.value.trim().toLowerCase();
+  const list=document.getElementById('autocomplete-list');
+  acSelectedIdx=-1;
+  if(!val){list.style.display='none';return;}
+  const sug=getTopDescs().filter(d=>d.toLowerCase().includes(val)).slice(0,6);
+  if(!sug.length){list.style.display='none';return;}
+  list.innerHTML=sug.map(s=>`<div class="autocomplete-item" onmousedown="pickDesc(event,'${s.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')"> ${s}</div>`).join('');
+  list.style.display='block';
+}
+function onDescKey(e){
+  const list=document.getElementById('autocomplete-list');
+  const items=list.querySelectorAll('.autocomplete-item');
+  if(!items.length)return;
+  if(e.key==='ArrowDown'){e.preventDefault();acSelectedIdx=Math.min(acSelectedIdx+1,items.length-1);hlAC(items);}
+  else if(e.key==='ArrowUp'){e.preventDefault();acSelectedIdx=Math.max(acSelectedIdx-1,0);hlAC(items);}
+  else if(e.key==='Enter'&&acSelectedIdx>=0){e.preventDefault();document.getElementById('f-desc').value=items[acSelectedIdx].textContent.trim();list.style.display='none';}
+  else if(e.key==='Escape'){list.style.display='none';}
+}
+function hlAC(items){items.forEach((el,i)=>el.classList.toggle('selected',i===acSelectedIdx));}
+function pickDesc(e,val){e.preventDefault();document.getElementById('f-desc').value=val;document.getElementById('autocomplete-list').style.display='none';}
+document.addEventListener('click',e=>{if(!e.target.closest('.autocomplete-wrap'))document.getElementById('autocomplete-list').style.display='none';});
+
+// PERIOD / FILTER
+function setPeriod(btn){
+  document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');activePeriod=btn.dataset.p;renderStats();
+}
+function selectCat(btn){
+  document.querySelectorAll('.cat-btn[data-c]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');selectedCat=btn.dataset.c;
+}
+function filterBy(btn){
+  document.querySelectorAll('.filter-btn[data-f]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');activeFilter=btn.dataset.f;renderList();
 }
 
-// ── LOAD DATA ──
-async function loadData() {
-  if (!API_URL) return;
-  setSyncStatus('loading', 'ЗАРЕЖДА...');
-  document.getElementById('expense-rows').innerHTML = '<div class="loading-row">Зареждане</div>';
-
-  try {
-    const res = await fetch(`${API_URL}?action=getAll`);
-    const data = await res.json();
-
-    if (data.error) throw new Error(data.error);
-
-    expenses = data.expenses.map(e => ({
-      ...e,
-      amount: parseFloat(e.amount) || 0
-    }));
-
-    setSyncStatus('ok', 'СИНХРОНИЗИРАНО');
-    render();
-  } catch (err) {
-    setSyncStatus('error', 'ГРЕШКА');
-    flash('Грешка при зареждане: ' + err.message, true);
-    renderEmpty();
-  }
+// EDIT
+function startEdit(id){
+  const e=expenses.find(x=>String(x.id)===String(id));if(!e)return;
+  editingId=id;
+  document.getElementById('panel-title-text').textContent='РЕДАКТИРАНЕ';
+  document.getElementById('edit-badge').style.display='inline-block';
+  document.getElementById('submit-btn').textContent='ЗАПАЗИ ПРОМЕНИТЕ';
+  document.getElementById('cancel-btn').style.display='block';
+  document.querySelectorAll('.cat-btn[data-c]').forEach(b=>b.classList.toggle('active',b.dataset.c===e.cat));
+  selectedCat=e.cat;
+  document.getElementById('f-desc').value=e.desc||'';
+  document.getElementById('f-amount').value=e.amount||'';
+  document.getElementById('f-date').value=e.date||'';
+  document.getElementById('f-km').value=e.km||'';
+  document.getElementById('f-note').value=e.note||'';
+  const vs=document.getElementById('f-vehicle');
+  if(e.vehicle)vs.value=e.vehicle;
+  document.querySelector('.panel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function cancelEdit(){
+  editingId=null;
+  document.getElementById('panel-title-text').textContent='+ НОВ РАЗХОД';
+  document.getElementById('edit-badge').style.display='none';
+  document.getElementById('submit-btn').textContent='ДОБАВИ РАЗХОД';
+  document.getElementById('cancel-btn').style.display='none';
+  ['f-desc','f-amount','f-km','f-note'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
 }
 
-// ── ADD ──
-async function addExpense() {
-  const desc   = document.getElementById('f-desc').value.trim();
-  const amount = parseFloat(document.getElementById('f-amount').value);
-  const date   = document.getElementById('f-date').value;
-  const km     = document.getElementById('f-km').value;
-  const note   = document.getElementById('f-note').value.trim();
-
-  if (!desc)           { shake('f-desc');   return; }
-  if (!amount || amount <= 0) { shake('f-amount'); return; }
-  if (!date)           { shake('f-date');   return; }
-  if (!API_URL)        { flash('Първо настрой Google Sheets API URL!', true); return; }
-
-  const btn = document.getElementById('add-btn');
-  btn.disabled = true;
-  btn.textContent = 'ЗАПИСВА...';
-  setSyncStatus('loading', 'ЗАПИСВА...');
-
-  const payload = { action: 'add', data: { date, cat: selectedCat, desc, amount, km, note } };
-
-  try {
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-
-    // Optimistic update
-    expenses.unshift({ id: data.id, date, cat: selectedCat, desc, amount, km, note });
-    render();
-    flash('✓ РАЗХОДЪТ Е ЗАПИСАН В GOOGLE SHEETS');
-
-    document.getElementById('f-desc').value = '';
-    document.getElementById('f-amount').value = '';
-    document.getElementById('f-km').value = '';
-    document.getElementById('f-note').value = '';
-    setSyncStatus('ok', 'СИНХРОНИЗИРАНО');
-  } catch (err) {
-    flash('Грешка: ' + err.message, true);
-    setSyncStatus('error', 'ГРЕШКА ПРИ ЗАПИС');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'ДОБАВИ РАЗХОД';
-  }
+// SUBMIT
+async function submitExpense(){
+  const desc=document.getElementById('f-desc').value.trim();
+  const amount=parseFloat(document.getElementById('f-amount').value);
+  const date=document.getElementById('f-date').value;
+  const km=document.getElementById('f-km').value;
+  const note=document.getElementById('f-note').value.trim();
+  const vehicle=document.getElementById('f-vehicle').value;
+  let ok=true;
+  if(!desc){shake('f-desc');ok=false;}
+  if(!amount||amount<=0){shake('f-amount');ok=false;}
+  if(!date){shake('f-date');ok=false;}
+  if(!ok)return;
+  if(!API_URL){flash('Настрой Google Sheets URL първо!','err');return;}
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.textContent='ЗАПИСВА...';
+  setSyncStatus('loading','ЗАПИСВА...');
+  const payload={date,cat:selectedCat,desc,amount,km,note,vehicle};
+  try{
+    if(editingId){
+      await apiCall({action:'delete',id:editingId});
+      const r=await apiCall({action:'add',...payload});
+      const idx=expenses.findIndex(e=>String(e.id)===String(editingId));
+      const updated={id:r.id,...payload};
+      if(idx!==-1)expenses[idx]=updated;else expenses.unshift(updated);
+      flash('✓ Записът е обновен','ok');cancelEdit();
+    }else{
+      const r=await apiCall({action:'add',...payload});
+      expenses.unshift({id:r.id,...payload,amount});
+      flash('✓ Разходът е записан','ok');
+      ['f-desc','f-amount','f-km','f-note'].forEach(id=>document.getElementById(id).value='');
+    }
+    setSyncStatus('ok','СИНХРОНИЗИРАНО');render();
+  }catch(err){flash('Грешка: '+err.message,'err');setSyncStatus('error','ГРЕШКА');}
+  finally{btn.disabled=false;btn.textContent=editingId?'ЗАПАЗИ ПРОМЕНИТЕ':'ДОБАВИ РАЗХОД';}
 }
 
-// ── DELETE ──
-async function deleteExpense(id) {
-  if (!confirm('Изтриване на този запис?')) return;
-  setSyncStatus('loading', 'ИЗТРИВА...');
-
-  try {
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'delete', id }),
-    });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-
-    expenses = expenses.filter(e => String(e.id) !== String(id));
-    render();
-    flash('✗ ЗАПИСЪТ Е ИЗТРИТ');
-    setSyncStatus('ok', 'СИНХРОНИЗИРАНО');
-  } catch (err) {
-    flash('Грешка: ' + err.message, true);
-    setSyncStatus('error', 'ГРЕШКА');
-  }
+async function deleteExpense(id){
+  if(!confirm('Изтриване на този запис?'))return;
+  setSyncStatus('loading','ИЗТРИВА...');
+  try{
+    await apiCall({action:'delete',id});
+    expenses=expenses.filter(e=>String(e.id)!==String(id));
+    if(String(editingId)===String(id))cancelEdit();
+    render();flash('Записът е изтрит','ok');setSyncStatus('ok','СИНХРОНИЗИРАНО');
+  }catch(err){flash('Грешка: '+err.message,'err');setSyncStatus('error','ГРЕШКА');}
 }
 
-// ── UI HELPERS ──
-function selectCat(btn) {
-  document.querySelectorAll('.cat-btn[data-c]').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedCat = btn.dataset.c;
+// DATA FILTERS
+function getFiltered(){
+  return expenses.filter(e=>activeVehicle==='all'||e.vehicle===activeVehicle);
+}
+function getPeriod(){
+  const all=getFiltered(),now=new Date(),y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0');
+  return activePeriod==='month'?all.filter(e=>e.date&&e.date.startsWith(y+'-'+m)):all.filter(e=>e.date&&e.date.startsWith(String(y)));
 }
 
-function filterBy(btn) {
-  document.querySelectorAll('.cat-btn[data-f]').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  activeFilter = btn.dataset.f;
-  renderList();
+// RENDER
+function render(){renderStats();renderList();renderChart();renderDonut();}
+function renderEmpty(){
+  document.getElementById('expense-rows').innerHTML=`<div class="empty-state"><div class="empty-icon">☁️</div>Свържи се с Google Sheets</div>`;
+  renderStats();renderChart();renderDonut();
 }
 
-function shake(id) {
-  const el = document.getElementById(id);
-  el.style.borderColor = 'var(--accent2)';
-  setTimeout(() => el.style.borderColor = '', 1000);
+function renderStats(){
+  const data=getPeriod(),now=new Date();
+  const total=data.reduce((s,e)=>s+e.amount,0);
+  const fuel=data.filter(e=>e.cat==='fuel').reduce((s,e)=>s+e.amount,0);
+  const srv=data.filter(e=>e.cat==='service').reduce((s,e)=>s+e.amount,0);
+  document.getElementById('stat-total').innerHTML=fmt(total)+'<span class="stat-currency">€</span>';
+  document.getElementById('stat-fuel').innerHTML=fmt(fuel)+'<span class="stat-currency">€</span>';
+  document.getElementById('stat-service').innerHTML=fmt(srv)+'<span class="stat-currency">€</span>';
+  document.getElementById('stat-count').textContent=data.length;
+  const vName=activeVehicle==='all'?'всички превозни средства':(vehicles.find(v=>v.id===activeVehicle)?.name||'');
+  document.getElementById('stat-count-sub').textContent=vName;
+  document.getElementById('stat-total-sub').textContent=activePeriod==='year'?now.getFullYear()+' г.':MONTH_NAMES[now.getMonth()]+' '+now.getFullYear();
+  document.getElementById('stat-fuel-pct').textContent=total?pct(fuel,total)+'% от общото':'—';
+  document.getElementById('stat-service-pct').textContent=total?pct(srv,total)+'% от общото':'—';
 }
 
-function flash(msg, isErr = false) {
-  const el = document.getElementById('flash');
-  el.textContent = msg;
-  el.className = 'flash' + (isErr ? ' error' : '') + ' show';
-  setTimeout(() => el.classList.remove('show'), 2800);
-}
-
-function renderEmpty() {
-  document.getElementById('expense-rows').innerHTML =
-    `<div class="empty-state"><div class="empty-icon">☁️</div>СВЪРЖИ СЕ С GOOGLE SHEETS<br>ЗА ДА ВИЖДАШ ДАННИТЕ СИ</div>`;
-  renderStats([]);
-  renderChart([]);
-  renderDonut([]);
-}
-
-// ── RENDER ──
-function render() {
-  renderStats(expenses);
-  renderList();
-  renderChart(expenses);
-  renderDonut(expenses);
-}
-
-function renderStats(data) {
-  data = data || expenses;
-  const total   = data.reduce((s,e) => s + e.amount, 0);
-  const fuelAmt = data.filter(e=>e.cat==='fuel').reduce((s,e)=>s+e.amount,0);
-  const srvAmt  = data.filter(e=>e.cat==='service').reduce((s,e)=>s+e.amount,0);
-
-  document.getElementById('stat-total').innerHTML   = fmt(total)   + '<span class="currency">ЛВ</span>';
-  document.getElementById('stat-fuel').innerHTML    = fmt(fuelAmt) + '<span class="currency">ЛВ</span>';
-  document.getElementById('stat-service').innerHTML = fmt(srvAmt)  + '<span class="currency">ЛВ</span>';
-  document.getElementById('stat-count').textContent = data.length;
-  document.getElementById('stat-fuel-pct').textContent    = total ? pct(fuelAmt,total)+'% от общото' : '— % от общото';
-  document.getElementById('stat-service-pct').textContent = total ? pct(srvAmt,total) +'% от общото' : '— % от общото';
-}
-
-function renderList() {
-  const container = document.getElementById('expense-rows');
-  const filtered  = activeFilter === 'all' ? expenses : expenses.filter(e => e.cat === activeFilter);
-
-  if (!filtered.length) {
-    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div>НЯМА РАЗХОДИ ТУК</div>`;
-    return;
-  }
-
-  const sorted = [...filtered].sort((a,b) => b.date.localeCompare(a.date));
-
-  container.innerHTML = sorted.map(e => `
-    <div class="expense-row" data-cat="${e.cat}">
+function renderList(){
+  const container=document.getElementById('expense-rows');
+  const vMap={};vehicles.forEach(v=>vMap[v.id]=v);
+  let data=getFiltered();
+  if(activeFilter!=='all')data=data.filter(e=>e.cat===activeFilter);
+  data=[...data].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  document.getElementById('list-count-label').textContent=data.length+' записа';
+  if(!data.length){container.innerHTML=`<div class="empty-state"><div class="empty-icon">📋</div>Няма разходи</div>`;return;}
+  container.innerHTML=data.map(e=>{
+    const v=vMap[e.vehicle]||null;
+    return `<div class="expense-row" data-cat="${e.cat}">
       <div class="exp-date">${fmtDate(e.date)}</div>
-      <div class="exp-desc">
-        ${e.desc}
-        ${e.note||e.km ? `<small>${e.note||''}${e.km ? (e.note?' · ':'')+Number(e.km).toLocaleString('bg')+' км' : ''}</small>` : ''}
+      <div class="exp-desc">${e.desc}${(e.note||e.km)?`<small>${e.note||''}${e.km?(e.note?' · ':'')+Number(e.km).toLocaleString('bg')+' км':''}</small>`:''}</div>
+      <div class="exp-vehicle col-v" style="font-size:0.75rem;color:var(--muted)">${v?v.type+' '+v.name:'—'}</div>
+      <div class="exp-cat-cell col-cat"><span class="exp-cat ${CATS[e.cat]?.cls||'cat-other'}">${CATS[e.cat]?.label||e.cat}</span></div>
+      <div class="exp-amount">${fmt(e.amount)} €</div>
+      <div class="row-actions">
+        <button class="act-btn" onclick="startEdit('${e.id}')" title="Редактирай">✎</button>
+        <button class="act-btn del" onclick="deleteExpense('${e.id}')" title="Изтрий">✕</button>
       </div>
-      <div class="col-cat"><span class="exp-cat ${CATS[e.cat]?.cls||'cat-other'}">${CATS[e.cat]?.label||e.cat}</span></div>
-      <div class="exp-amount">${fmt(e.amount)} лв</div>
-      <div class="exp-del" onclick="deleteExpense(${e.id})">✕</div>
-    </div>
-  `).join('');
-}
-
-function renderChart(data) {
-  data = data || expenses;
-  const container = document.getElementById('chart-bars');
-  const now = new Date();
-  const year = now.getFullYear();
-
-  const monthly = Array.from({length:12}, (_,i) => {
-    const m = String(i+1).padStart(2,'0');
-    const prefix = `${year}-${m}`;
-    const bycat = {};
-    Object.keys(CATS).forEach(c => {
-      bycat[c] = data.filter(e => String(e.date).startsWith(prefix) && e.cat===c).reduce((s,e)=>s+e.amount,0);
-    });
-    bycat.total = Object.values(bycat).reduce((a,b)=>a+b,0);
-    return { month: MONTHS[i], ...bycat };
-  });
-
-  const maxVal = Math.max(...monthly.map(m=>m.total), 1);
-  const CHART_H = 110;
-
-  container.innerHTML = monthly.map((m,i) => {
-    const isFuture = i > now.getMonth();
-    const barH = Math.round((m.total/maxVal)*CHART_H);
-    const segs = Object.entries(CATS).map(([k,v]) => {
-      const h = Math.round((m[k]/maxVal)*CHART_H);
-      return h>0 ? `<div class="bar-seg" style="height:${h}px;background:${v.color};opacity:${isFuture?0.2:0.85}"></div>` : '';
-    }).join('');
-    return `<div class="bar-group" title="${m.month}: ${fmt(m.total)} лв">
-      <div class="bar-stack" style="height:${barH}px">${segs}</div>
-      <div class="bar-month" style="opacity:${isFuture?0.3:1}">${m.month}</div>
     </div>`;
   }).join('');
 }
 
-function renderDonut(data) {
-  data = data || expenses;
-  const svg = document.getElementById('donut-svg');
-  const breakdown = document.getElementById('donut-breakdown');
-  const total = data.reduce((s,e)=>s+e.amount,0);
-
-  if (!total) {
-    svg.innerHTML = `<circle cx="55" cy="55" r="38" fill="none" stroke="var(--border)" stroke-width="14"/>`;
-    document.getElementById('donut-main').textContent = '—';
-    breakdown.innerHTML = `<div class="donut-row" style="color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:1px">Добавете разходи за анализ</div>`;
-    return;
-  }
-
-  const cx=55, cy=55, r=38, sw=14;
-  const circ = 2*Math.PI*r;
-  let offset = -circ*0.25;
-
-  const catTotals = Object.entries(CATS).map(([k,v]) => ({
-    key:k, ...v, amount: data.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0)
-  })).filter(c=>c.amount>0).sort((a,b)=>b.amount-a.amount);
-
-  const top = catTotals[0];
-  document.getElementById('donut-main').textContent = top ? pct(top.amount,total)+'%' : '—';
-
-  let paths = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--border)" stroke-width="${sw}"/>`;
-  catTotals.forEach(c => {
-    const frac = c.amount/total;
-    const dash = frac*circ;
-    const gap  = circ-dash;
-    paths += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c.color}" stroke-width="${sw}"
-      stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-offset}"/>`;
-    offset += dash;
+function renderChart(){
+  const container=document.getElementById('chart-bars');
+  const now=new Date(),year=now.getFullYear();
+  const source=getFiltered().filter(e=>e.date&&e.date.startsWith(String(year)));
+  const monthly=Array.from({length:12},(_,i)=>{
+    const m=String(i+1).padStart(2,'0'),prefix=year+'-'+m;
+    const bycat={};
+    Object.keys(CATS).forEach(c=>{bycat[c]=source.filter(e=>e.date.startsWith(prefix)&&e.cat===c).reduce((s,e)=>s+e.amount,0);});
+    bycat.total=Object.values(bycat).reduce((a,b)=>a+b,0);
+    return {month:MONTHS[i],...bycat};
   });
-  svg.innerHTML = paths;
-
-  breakdown.innerHTML = catTotals.map(c => `
-    <div class="donut-row">
-      <div class="donut-cat"><div style="width:10px;height:3px;background:${c.color}"></div>${c.label}</div>
-      <div class="donut-bar-bg"><div class="donut-bar-fill" style="width:${pct(c.amount,total)}%;background:${c.color}"></div></div>
-      <div class="donut-amt">${fmt(c.amount)} лв</div>
-    </div>
-  `).join('');
+  const maxVal=Math.max(...monthly.map(m=>m.total),1),H=130;
+  container.innerHTML=monthly.map((m,i)=>{
+    const isFuture=i>now.getMonth(),barH=Math.round((m.total/maxVal)*H);
+    const segs=Object.entries(CATS).map(([k,v])=>{
+      const h=Math.round((m[k]/maxVal)*H);
+      return h>0?`<div class="bar-seg" style="height:${h}px;background:${v.color};opacity:${isFuture?0.25:0.85}"></div>`:'';
+    }).join('');
+    const tip=Object.entries(CATS).filter(([k])=>m[k]>0).map(([k,v])=>`${v.emoji} ${v.label}: ${fmt(m[k])} €`).join('\n')||'Няма данни';
+    return `<div class="bar-group">
+      <div class="bar-total-label">${m.total>0?fmt(m.total)+' €':''}</div>
+      <div class="bar-stack" style="height:${barH}px">
+        <div class="bar-tooltip">${tip}</div>
+        ${segs}
+      </div>
+      <div class="bar-month" style="opacity:${isFuture?0.35:1}">${m.month}</div>
+    </div>`;
+  }).join('');
 }
 
-// ── UTILS ──
-function fmt(n) { return Number(n).toLocaleString('bg-BG',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-function fmtDate(d) { if(!d) return ''; const [y,m,day]=(d+'').split('-'); return `${day}.${m}.${y}`; }
-function pct(part,total) { return Math.round((part/total)*100); }
+function renderDonut(){
+  const svg=document.getElementById('donut-svg'),rows=document.getElementById('donut-rows');
+  const data=getFiltered(),total=data.reduce((s,e)=>s+e.amount,0);
+  if(!total){
+    svg.innerHTML=`<circle cx="55" cy="55" r="38" fill="none" stroke="var(--bg2)" stroke-width="14"/>`;
+    document.getElementById('donut-main').textContent='—';
+    rows.innerHTML=`<div class="donut-row" style="color:var(--muted);font-size:0.78rem">Добавете разходи</div>`;
+    return;
+  }
+  const cats=Object.entries(CATS).map(([k,v])=>({key:k,...v,amount:data.filter(e=>e.cat===k).reduce((s,e)=>s+e.amount,0)}))
+    .filter(c=>c.amount>0).sort((a,b)=>b.amount-a.amount);
+  document.getElementById('donut-main').textContent=cats[0]?pct(cats[0].amount,total)+'%':'—';
+  const cx=55,cy=55,r=38,sw=14,circ=2*Math.PI*r;
+  let off=-circ*0.25;
+  let p=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--bg2)" stroke-width="${sw}"/>`;
+  cats.forEach(c=>{
+    const dash=(c.amount/total)*circ;
+    p+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c.color}" stroke-width="${sw}" stroke-dasharray="${dash} ${circ-dash}" stroke-dashoffset="${-off}"/>`;
+    off+=dash;
+  });
+  svg.innerHTML=p;
+  rows.innerHTML=cats.map(c=>`
+    <div class="donut-row">
+      <div style="width:8px;height:8px;border-radius:50%;background:${c.color};flex-shrink:0"></div>
+      <div class="donut-cat-name">${c.label}</div>
+      <div class="donut-bar-bg"><div class="donut-bar-fill" style="width:${pct(c.amount,total)}%;background:${c.color}"></div></div>
+      <div class="donut-amt">${fmt(c.amount)} €</div>
+    </div>`).join('');
+}
+
+function fmt(n){return Number(n).toLocaleString('bg-BG',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtDate(d){if(!d)return '';const[y,m,day]=(d+'').split('-');return day+'.'+m+'.'+y;}
+function pct(part,total){return Math.round((part/total)*100);}
+function shake(id){const el=document.getElementById(id);el.classList.add('error');setTimeout(()=>el.classList.remove('error'),1200);}
+function flash(msg,type='ok'){const el=document.getElementById('flash');el.textContent=msg;el.className='flash '+type+' show';setTimeout(()=>el.classList.remove('show'),2800);}
 </script>
 </body>
 </html>
